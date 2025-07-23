@@ -164,7 +164,7 @@ in
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     # low latency maybe fixes crackling audio in games?
@@ -213,6 +213,7 @@ in
   programs.fish.enable = true;
 
   xdg.portal = {
+    config.common.default = "*";
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     xdgOpenUsePortal = true;
