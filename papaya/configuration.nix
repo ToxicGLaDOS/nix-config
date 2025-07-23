@@ -282,37 +282,37 @@ in
           # Print username:
           set_color $namecol -b normal
           echo -n (whoami)":"
-    
+
           # Print time
           set_color $timecol -b normal
           echo -n "["(date +%H:%M:%S)"]"
           set_color $namecol -b normal
           echo -n ":"
-    
+
           # Print git_branch_name
           set_color $branchcol -b normal
           echo -n (git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    
+
           # Print a ":"
           set_color $namecol -b normal
           echo -n ":"
-    
+
           # Print current directory
           set_color $dircol -b normal
           set working_dir (echo $PWD | sed -e "s|^$HOME|~|")
           echo -n "$working_dir"
-    
+
           # Print a ">"
           set_color $namecol
           echo -n ">"
         end
 
-	alias k kubectl
-	fish_add_path /home/jeff/.local/bin
+        alias k kubectl
+        fish_add_path /home/jeff/.local/bin
       '';
       shellInit = ''
         any-nix-shell fish --info-right | source
-	set -x EDITOR vim
+        set -x EDITOR vim
       '';
     };
 
@@ -345,13 +345,13 @@ in
         end
       end
       vim.opt.rtp:prepend(lazypath)
-      
+
       -- Make sure to setup `mapleader` and `maplocalleader` before
       -- loading lazy.nvim so that mappings are correct.
       -- This is also a good place to setup other settings (vim.opt)
       vim.g.mapleader = " "
       vim.g.maplocalleader = "\\"
-      
+
       -- Setup lazy.nvim
       require("lazy").setup({
         spec = {
@@ -373,7 +373,7 @@ in
       local lsp_attach = function(client, bufnr)
         -- this is where you enable features that only work
         -- if there is a language server active in the file
-	lsp_zero.default_keymaps({buffer = bufnr})
+        lsp_zero.default_keymaps({buffer = bufnr})
       end
 
       lsp_zero.extend_lspconfig({
@@ -406,7 +406,7 @@ in
            ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
          }),
 
-	 sources = cmp.config.sources({
+         sources = cmp.config.sources({
            { name = 'nvim_lsp' },
          }, {
            { name = 'buffer' },
@@ -420,7 +420,7 @@ in
 
     # Install firefox.
     programs.firefox.enable = true;
-  
+
     # The state version is required and should stay at the version you
     # originally installed.
     home.stateVersion = "24.05";
