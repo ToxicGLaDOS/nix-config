@@ -245,7 +245,6 @@ in
       unzip
       vlc
       freecad
-      kitty
       scrot
       tuxguitar
       prismlauncher
@@ -314,6 +313,15 @@ in
         any-nix-shell fish --info-right | source
         set -x EDITOR vim
       '';
+    };
+
+    programs.kitty = {
+      enable = true;
+      settings = {
+        # Fixes slow startup after suspend
+        # https://github.com/kovidgoyal/kitty/issues/8251
+        sync_to_monitor = false;
+      };
     };
 
     programs.neovim = {
