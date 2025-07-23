@@ -45,15 +45,8 @@ in
   ];
 
   boot.binfmt.emulatedSystems = [
-    #"armv7l-linux"
     "aarch64-linux"
   ];
-
-  #boot.binfmt.registrations.armv7l-linux = {
-  #  interpreter = "${pkgs.pkgsStatic.qemu-user.override { hostCpuTargets = ["arm-linux-user"];}}/bin/qemu-arm";
-  #  fixBinary = true;
-  #  matchCredentials = true;
-  #};
 
   boot.binfmt.registrations.aarch64-linux = {
     interpreter = "${pkgs.pkgsStatic.qemu-user.override { hostCpuTargets = ["aarch64-linux-user"];}}/bin/qemu-aarch64";
@@ -123,17 +116,11 @@ in
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  #services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
+  # Enable sddm display manager
   services.displayManager = {
     sddm.enable = true;
     defaultSession = "none+i3";
   };
-
-  #services.desktopManager.plasma6.enable = true;
 
   services.xserver = {
     enable = true;
@@ -224,7 +211,6 @@ in
   };
 
   programs.fish.enable = true;
-  #programs.hyprland.enable = true;
 
   xdg.portal = {
     enable = true;
