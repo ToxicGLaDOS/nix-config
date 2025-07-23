@@ -156,11 +156,11 @@ in
       layout = "us";
     };
 
-    # TODO: This doesn't work :(
     serverFlagsSection = ''
         Option "StandbyTime" "60"
         Option "SuspendTime" "60"
         Option "OffTime"     "60"
+        Option "BlankTime"   "60"
     '';
   };
 
