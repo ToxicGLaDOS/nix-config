@@ -1,8 +1,26 @@
+-- Set the behavior of tab
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 0
+vim.opt.expandtab = true
+
+-- Use tabs for .go files
+vim.api.nvim_create_autocmd({"BufRead"}, {
+  pattern = {"*.go"},
+  callback = function() vim.opt.expandtab = false end,
+})
+
+-- Enable spell check for git commit messages
+vim.api.nvim_create_autocmd({"BufRead"}, {
+  pattern = {"COMMIT_EDITMSG"},
+  callback = function() vim.opt.spell = true end,
+})
+
+-- Set shiftwidth = 2 for some files
 vim.api.nvim_create_autocmd({'BufEnter', 'BufWinEnter'}, {
-  pattern = {'*.vue'},
+  pattern = {'*.vue', '*.nix'},
   callback = function(ev)
     vim.opt.shiftwidth = 2
-    vim.opt.expandtab = true
   end
 })
 
@@ -51,6 +69,8 @@ local lsp_attach = function(client, bufnr)
   -- this is where you enable features that only work
   -- if there is a language server active in the file
   lsp_zero.default_keymaps({buffer = bufnr})
+  -- Open error float with C-e
+  vim.keymap.set('n', '<C-e>', function() vim.diagnostic.open_float() end, {noremap = true})
 end
 
 lsp_zero.extend_lspconfig({
