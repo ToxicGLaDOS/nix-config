@@ -228,7 +228,7 @@ in
       any-nix-shell
       git
       restic
-      bambu-studio
+      # bambu-studio # bambu-studio is broken, so I installed it with flatpack :shrug: (flatpak run com.bambulab.BambuStudio)
       unzip
       vlc
       freecad
