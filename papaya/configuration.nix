@@ -256,6 +256,8 @@ in
       calf
       neural-amp-modeler-lv2
 
+      libsForQt5.kdenlive
+
       # Handbrake encodes dvds
       handbrake
       # Tooling for .mkv files
