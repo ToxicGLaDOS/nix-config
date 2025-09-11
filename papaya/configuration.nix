@@ -256,6 +256,11 @@ in
       calf
       neural-amp-modeler-lv2
 
+      # Handbrake encodes dvds
+      handbrake
+      # Tooling for .mkv files
+      mkvtoolnix
+
       podman-compose
     ];
 
