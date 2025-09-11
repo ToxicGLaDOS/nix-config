@@ -92,6 +92,9 @@ lspconfig.volar.setup {
 
 require('lspconfig').gopls.setup({})
 require('lspconfig').rust_analyzer.setup({})
+require('lspconfig').lua_ls.setup({})
+require('lspconfig').gdscript.setup({})
+
 
 local cmp = require('cmp')
  cmp.setup({
