@@ -87,6 +87,9 @@ in
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+
   boot.initrd.luks.devices."luks-b68cf105-2e59-4ef2-b5f0-a6e53840fc6f".device = "/dev/disk/by-uuid/b68cf105-2e59-4ef2-b5f0-a6e53840fc6f";
   networking.hostName = "papaya"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -333,7 +336,8 @@ in
   users.users.jeff = {
     isNormalUser = true;
     description = "Jeff Smith";
-    extraGroups = [ "networkmanager" "wheel" ];
+    # scanner and lp are used for scanning and printing
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp"];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIniX9/ja773MHs/7Y5VcJGwbqrr0ToV8vSgQ4GuTCGu"
