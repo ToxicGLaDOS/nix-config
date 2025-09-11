@@ -247,6 +247,7 @@ in
       bolt-launcher
       openutau
       audacity
+      blender
 
       ardour
       reaper
