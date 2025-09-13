@@ -248,6 +248,7 @@ in
       openutau
       audacity
       blender
+      gimp
 
       ardour
       reaper
