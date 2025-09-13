@@ -249,6 +249,7 @@ in
       audacity
       blender
       gimp
+      abcde # cd ripping cli
 
       ardour
       reaper
