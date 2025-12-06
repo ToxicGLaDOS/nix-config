@@ -87,6 +87,13 @@ in
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
+  # This allows stuff like MakeMKV to see the bluray reader
+  # It's not clear why I need this, but it worked!
+  # The answer came from here: https://bbs.archlinux.org/viewtopic.php?pid=2226368#p2226368
+  boot.kernelModules = [
+    "sg"
+  ];
+
   hardware.sane.enable = true;
   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
 
@@ -233,7 +240,6 @@ in
       restic
       # bambu-studio # bambu-studio is broken, so I installed it with flatpack :shrug: (flatpak run com.bambulab.BambuStudio)
       unzip
-      vlc
       freecad
       scrot
       tuxguitar
@@ -251,6 +257,14 @@ in
       gimp
       abcde # cd ripping cli
 
+      # This is version 1.17.7
+      # Later versions are broken on linux (unless you flash your drive with libredrive firmware maybe?)
+      # https://forum.makemkv.com/forum/viewtopic.php?p=183190#p183190
+      (import (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/ab7b6889ae9d484eed2876868209e33eb262511d.tar.gz";
+      }) {config.allowUnfree = true;}).makemkv
+
+      # music stuff:
       ardour
       reaper
       # vst's and ardour plugins:
@@ -347,7 +361,7 @@ in
     isNormalUser = true;
     description = "Jeff Smith";
     # scanner and lp are used for scanning and printing
-    extraGroups = [ "networkmanager" "wheel" "scanner" "lp"];
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" "cdrom"];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIniX9/ja773MHs/7Y5VcJGwbqrr0ToV8vSgQ4GuTCGu"
@@ -371,14 +385,19 @@ in
   };
 
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = let
+    libbluray = pkgs.libbluray.override {
+      withAACS = true;
+      withBDplus = true;
+    };
+    myVlc = pkgs.vlc.override {inherit libbluray; };
+  in with pkgs; [
+    # System packges go here
+    myVlc
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     canon-cups-ufr2
     ntfs3g
     qemu-user
-  #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
