@@ -61,13 +61,7 @@ require("lazy").setup({
   checker = { enabled = true },
 })
 
-local lsp_attach = function(client, bufnr)
-  -- this is where you enable features that only work
-  -- if there is a language server active in the file
-  -- Open error float with C-e
-  vim.keymap.set('n', '<C-e>', function() vim.diagnostic.open_float() end, {noremap = true})
-end
-
+vim.keymap.set('n', '<C-e>', function() vim.diagnostic.open_float() end, {noremap = true})
 vim.lsp.enable('vue_ls', {
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
   init_options = {
