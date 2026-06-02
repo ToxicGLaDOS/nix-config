@@ -89,10 +89,10 @@ in
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
-  # This allows stuff like MakeMKV to see the bluray reader
-  # It's not clear why I need this, but it worked!
-  # The answer came from here: https://bbs.archlinux.org/viewtopic.php?pid=2226368#p2226368
   boot.kernelModules = [
+    # This allows stuff like MakeMKV to see the bluray reader
+    # It's not clear why I need this, but it worked!
+    # The answer came from here: https://bbs.archlinux.org/viewtopic.php?pid=2226368#p2226368
     "sg"
 
     # Required by OpenTabletDriver (https://wiki.nixos.org/wiki/OpenTabletDriver)
