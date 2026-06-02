@@ -51,6 +51,11 @@ in
     matchCredentials = true;
   };
 
+  hardware.opentabletdriver = {
+    enable = true;
+  };
+
+  hardware.uinput.enable = true;
 
   hardware.nvidia = {
 
@@ -89,6 +94,9 @@ in
   # The answer came from here: https://bbs.archlinux.org/viewtopic.php?pid=2226368#p2226368
   boot.kernelModules = [
     "sg"
+
+    # Required by OpenTabletDriver (https://wiki.nixos.org/wiki/OpenTabletDriver)
+    "uinput"
   ];
 
   hardware.sane.enable = true;
@@ -222,11 +230,14 @@ in
 
   programs.fish.enable = true;
 
-  xdg.portal = {
-    config.common.default = "*";
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    xdgOpenUsePortal = true;
+  xdg = {
+    mime.enable = true;
+    portal = {
+      config.common.default = "*";
+      enable = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      xdgOpenUsePortal = true;
+    };
   };
 
   home-manager.users.jeff = { pkgs, ... }: {
@@ -256,6 +267,8 @@ in
       blender
       gimp
       abcde # cd ripping cli
+      osu-lazer-bin
+      opentabletdriver
 
       # This is version 1.17.7
       # Later versions are broken on linux (unless you flash your drive with libredrive firmware maybe?)
