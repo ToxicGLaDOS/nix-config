@@ -259,6 +259,7 @@ in
       abcde # cd ripping cli
       osu-lazer-bin
       opentabletdriver
+      krita
 
       # This is version 1.17.7
       # Later versions are broken on linux (unless you flash your drive with libredrive firmware maybe?)
