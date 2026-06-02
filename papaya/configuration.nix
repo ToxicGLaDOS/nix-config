@@ -277,7 +277,7 @@ in
       calf
       neural-amp-modeler-lv2
 
-      libsForQt5.kdenlive
+      kdePackages.kdenlive
 
       # Handbrake encodes dvds
       handbrake
