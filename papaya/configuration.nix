@@ -389,20 +389,6 @@ in
   };
 
 
-  environment.systemPackages = let
-    libbluray = pkgs.libbluray.override {
-      withAACS = true;
-      withBDplus = true;
-    };
-    myVlc = pkgs.vlc.override {inherit libbluray; };
-  in with pkgs; [
-    # System packges go here
-    myVlc
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    canon-cups-ufr2
-    ntfs3g
-    qemu-user
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
