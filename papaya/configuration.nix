@@ -277,6 +277,10 @@ in
       calf
       neural-amp-modeler-lv2
 
+      # Support windows vsts on linux
+      yabridge
+      yabridgectl
+
       kdePackages.kdenlive
 
       # Handbrake encodes dvds
