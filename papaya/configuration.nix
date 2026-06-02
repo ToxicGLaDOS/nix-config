@@ -194,25 +194,6 @@ in
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
-    # low latency maybe fixes crackling audio in games?
-    extraConfig.pipewire-pulse."92-low-latency" = {
-      context.modules = [
-        {
-          name = "libpipewire-module-protocol-pulse";
-          args = {
-            pulse.min.req = "32/48000";
-            pulse.default.req = "32/48000";
-            pulse.max.req = "32/48000";
-            pulse.min.quantum = "32/48000";
-            pulse.max.quantum = "32/48000";
-          };
-        }
-      ];
-      stream.properties = {
-        node.latency = "32/48000";
-        resample.quality = 1;
-      };
-    };
 
     enable = true;
     alsa.enable = true;
