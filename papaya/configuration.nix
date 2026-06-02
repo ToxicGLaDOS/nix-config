@@ -137,6 +137,15 @@ in
     defaultSession = "none+i3";
   };
 
+  services.libinput = {
+    enable = true;
+
+    # disabling mouse acceleration
+    mouse = {
+      accelProfile = "flat";
+    };
+  };
+
   services.xserver = {
     enable = true;
 
