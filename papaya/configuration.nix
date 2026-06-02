@@ -36,9 +36,6 @@ in
     #  ];
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
-
   # only needed if an actual amd gpu is in another pcie slot.
   boot.blacklistedKernelModules = [
     "amdgpu"
@@ -134,6 +131,9 @@ in
 
   services.xserver = {
     enable = true;
+
+    # Load nvidia driver for Xorg and Wayland
+    videoDrivers = ["nvidia"];
 
     desktopManager = {
       xterm.enable = false;
