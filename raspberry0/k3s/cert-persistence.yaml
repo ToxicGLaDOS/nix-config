@@ -1,0 +1,30 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: kube-system-data-claim
+  namespace: kube-system
+spec:
+  volumeName: kube-system-data-volume
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: kube-system-data-volume
+spec:
+  storageClassName: nfs
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
+  nfs:
+    path: "/watermelon-pool/kube-system/data"
+    server: watermelon

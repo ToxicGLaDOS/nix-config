@@ -1,0 +1,40 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    additionalArguments:
+      - "--api"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--certificatesResolvers.letsencrypt.acme.email=toxicglados@gmail.com"
+      - "--certificatesResolvers.letsencrypt.acme.storage=/data/acme.json"
+      - "--certificatesResolvers.letsencrypt.acme.httpChallenge.entryPoint=web"
+      # Lets encrypt staging CA
+      #- "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+    rbac:
+      enabled: true
+    ports:
+      # Auto redirect http -> https
+      web:
+        redirectTo: "websecure"
+      websecure:
+        tls:
+          enabled: true
+    securityContext:
+      runAsGroup: 2009 # Maps to the kube-system user on the nas
+      runAsUser: 2009
+    persistence:
+      enabled: true
+      existingClaim: "kube-system-data-claim"
+    podAnnotations:
+      prometheus.io/port: "8083"
+      prometheus.io/scrape: "true"
+    providers:
+      kubernetesIngress:
+        publishedService:
+          enabled: true
+      kubernetesCRD:
+        allowCrossNamespace: true
