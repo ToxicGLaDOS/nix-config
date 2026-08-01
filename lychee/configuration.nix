@@ -49,72 +49,6 @@
     # here, NOT in environment.systemPackages
   ];
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    configure = {
-      customRC = ''
-        syntax sync minlines=200
-        set tabstop=4
-        set shiftwidth=4
-        set expandtab
-        set smarttab
-        set tabstop=8 softtabstop=0
-
-        autocmd FileType vue setlocal shiftwidth=2 tabstop=2
-        autocmd FileType go setlocal noexpandtab tabstop=4
-        autocmd FileType gd setlocal noexpandtab
-
-
-        lua <<EOF
-        local lsp_zero = require('lsp-zero')
-
-        vim.keymap.set('n', '<C-E>', vim.diagnostic.open_float, { desc = "Open error message float" })
-
-        lsp_zero.on_attach(function(client, bufnr)
-          -- see :help lsp-zero-keybindings
-          -- to learn the available actions
-          lsp_zero.default_keymaps({buffer = bufnr})
-        end)
-
-        --vim.lsp.enable('vue_ls', {
-        --  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-        --  init_options = {
-        --    vue = {
-        --      hybridMode = false,
-        --    },
-        --  },
-        --})
-
-        vim.lsp.enable('ts_ls')
-        vim.lsp.enable('rust_analyzer')
-        vim.lsp.enable('gdscript')
-        vim.lsp.enable('gopls')
-        vim.lsp.enable('pylsp')
-
-        local cmp = require('cmp')
-
-        cmp.setup({
-          mapping = cmp.mapping.preset.insert({
-            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          })
-        })
-        EOF
-
-     '';
-      packages.myVimPackage = with pkgs.vimPlugins; {
-        start = [ nvim-lspconfig nvim-cmp cmp-nvim-lsp luasnip lsp-zero-nvim ];
-      };
-    };
-  };
-  environment.shellAliases = {
-    vim = "nvim";
-  };
-
   networking.hostName = "lychee"; # Define your hostname.
 
   networking.hosts = {
@@ -290,7 +224,15 @@
     # The state version is required and should stay at the version you
     # originally installed.
     home.stateVersion = "24.05";
-
+      programs.neovim = {
+      plugins = [
+        pkgs.vimPlugins.lazy-nvim
+      ];
+      extraLuaConfig = builtins.readFile ../shared/nvim/init.lua;
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+    };
     programs.git = {
       enable = true;
       settings = {

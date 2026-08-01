@@ -350,7 +350,7 @@ in
       plugins = [
         pkgs.vimPlugins.lazy-nvim
       ];
-      extraLuaConfig = builtins.readFile ./nvim/init.lua;
+      extraLuaConfig = builtins.readFile ../shared/nvim/init.lua;
       enable = true;
       viAlias = true;
       vimAlias = true;
