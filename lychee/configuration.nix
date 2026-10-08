@@ -191,15 +191,21 @@
     programs.fish = {
       enable = true;
       interactiveShellInit = ''
-        any-nix-shell fish --info-right | source
-        direnv hook fish | source
         function fish_prompt
           set -l namecol  white
           set -l dircol green
           set -l branchcol purple
+          set -l proxycol red
+          set -l timecol blue
           # Print username:
           set_color $namecol -b normal
           echo -n (whoami)":"
+
+          # Print time
+          set_color $timecol -b normal
+          echo -n "["(date +%H:%M:%S)"]"
+          set_color $namecol -b normal
+          echo -n ":"
 
           # Print git_branch_name
           set_color $branchcol -b normal
@@ -218,7 +224,13 @@
           set_color $namecol
           echo -n ">"
         end
+
         alias k kubectl
+        fish_add_path /home/jeff/.local/bin
+      '';
+      shellInit = ''
+        any-nix-shell fish --info-right | source
+        set -x EDITOR vim
       '';
     };
     # The state version is required and should stay at the version you
