@@ -237,6 +237,8 @@
     # originally installed.
     home.stateVersion = "24.05";
       programs.neovim = {
+      withRuby = false;
+      withPython3 = false;
       plugins = [
         pkgs.vimPlugins.lazy-nvim
       ];
