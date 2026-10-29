@@ -262,6 +262,7 @@ in
       opentabletdriver
       krita
       rofimoji
+      vlc
 
       # This is version 1.17.7
       # Later versions are broken on linux (unless you flash your drive with libredrive firmware maybe?)
