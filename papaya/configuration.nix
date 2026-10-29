@@ -160,7 +160,7 @@ in
       enable = true;
       configFile = ./i3/config;
       extraPackages = with pkgs; [
-        dmenu #application launcher most people use
+        rofi
         i3status # gives you the default i3 status bar
         i3lock #default i3 screen locker
         i3blocks #if you are planning on using i3blocks over i3status
@@ -261,6 +261,7 @@ in
       osu-lazer-bin
       opentabletdriver
       krita
+      rofimoji
 
       # This is version 1.17.7
       # Later versions are broken on linux (unless you flash your drive with libredrive firmware maybe?)
