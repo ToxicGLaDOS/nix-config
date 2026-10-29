@@ -23,6 +23,12 @@
     kernelPackages = pkgs.linuxPackages;
   };
 
+  hardware.bluetooth = {
+    enable = true;
+  };
+
+  time.timeZone = "America/Chicago";
+
   # We need this to run nixos-rebuild with the local machine as the build host
   # With this you can run
   # nixos-rebuild switch -I nixos-config=configuration.nix --target-host jeff@raspberry0
@@ -48,7 +54,6 @@
 
   environment.systemPackages = with pkgs; [
     neovim
-    k3s
   ];
 
   # k3s uses containerd, but we need docker for
@@ -63,6 +68,16 @@
         cert-persistence.source = ./k3s/cert-persistence.yaml;
         traefik-customization.source = ./k3s/traefik-customization.yaml;
       };
+      extraFlags = [
+        # Recommended values from: https://oneuptime.com/blog/post/2026-03-20-k3s-cluster-cidr/view#configuring-ipv6-dual-stack
+        # And they seem sane to me
+        "--cluster-cidr=10.42.0.0/16,fd42::/56"
+        "--service-cidr=10.43.0.0/16,fd43::/112"
+        # These are maybe required for ipv6 support :shrug:
+        "--flannel-ipv6-masq"
+        "--flannel-iface=end0"
+      ];
+      nodeIP = "192.168.1.252,fdfc:fd93:636c::252";
     };
   };
 
@@ -86,9 +101,15 @@
     # 2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
     80
     443
+    8123 # Allow homeassistant on hostNetwork
+    5580 # Allow matter on hostNetwork
+    5540 # Matter protocol?
+    5353 # mDNS
   ];
   networking.firewall.allowedUDPPorts = [
     8472 # k3s, flannel: required if using multi-node for inter-node networking
+    5540 # Matter protocol?
+    5353 # mDNS
   ];
 
   # This value determines the NixOS release from which the default
