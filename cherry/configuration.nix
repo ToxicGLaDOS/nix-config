@@ -25,11 +25,56 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
+  # We need this to run nixos-rebuild with the local machine as the build host
+  # With this you can run
+  # nixos-rebuild switch -I nixos-config=configuration.nix --target-host jeff@cherry
+  # If you try this without being a trusted-user you'll get this error:
+  # error: cannot add path '/nix/store/09w0mk3fqcwblx2px3b8qzh4r6r6cna0-users-groups.json' because it lacks a signature by a trusted key
+  # Without this you can run this instead:
+  # nixos-rebuild switch -I nixos-config=configuration.nix --target-host jeff@cherry --build-host jeff@cherry
+  # https://mynixos.com/nixpkgs/option/nix.settings.trusted-users
+  nix.settings.trusted-users = [
+    "jeff"
+  ];
+
+  fileSystems."/mnt/shows" = {
+    device = "watermelon:/watermelon-pool/encrypted/jellyfin/shows";
+    fsType = "nfs";
+    options = [
+      "ro"
+    ];
+  };
+
+  fileSystems."/mnt/movies" = {
+    device = "watermelon:/watermelon-pool/encrypted/jellyfin/movies";
+    fsType = "nfs";
+    options = [
+      "ro"
+    ];
+  };
+
+  fileSystems."/mnt/books" = {
+    device = "watermelon:/watermelon-pool/encrypted/jellyfin/books";
+    fsType = "nfs";
+    options = [
+      "ro"
+    ];
+  };
+
+  fileSystems."/mnt/home_movies" = {
+    device = "watermelon:/watermelon-pool/encrypted/jellyfin/home_movies";
+    fsType = "nfs";
+    options = [
+      "ro"
+    ];
+  };
+
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jeff = {
     isNormalUser = true;
     description = "jeff";
-    extraGroups = [ "wheel" ]; # Sudo access
+    extraGroups = [ "wheel" "docker" ]; # Sudo access
     shell = pkgs.bash;
     home = "/home/jeff";
     openssh.authorizedKeys.keys = [
@@ -43,18 +88,16 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [ 
     neovim
+    docker-compose
   ];
 
   virtualisation = {
     containers.enable = true;
-    podman = {
+    # I tried use podman, but podman does strange things
+    # with ownership of mounted volumes that I couldn't
+    # figure out. Maybe another time...
+    docker = {
       enable = true;
-
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
     };
   };
 
@@ -68,9 +111,9 @@
     };
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Open ports in the firewall for jellyfin
+  networking.firewall.allowedTCPPorts = [ 8096 8920 ];
+  networking.firewall.allowedUDPPorts = [ 7359 1900];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
