@@ -372,7 +372,7 @@ in
     isNormalUser = true;
     description = "Jeff Smith";
     # scanner and lp are used for scanning and printing
-    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" "cdrom"];
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" "cdrom" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIniX9/ja773MHs/7Y5VcJGwbqrr0ToV8vSgQ4GuTCGu"
